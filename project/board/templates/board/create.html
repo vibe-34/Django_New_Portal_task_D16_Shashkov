@@ -1,0 +1,13 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'board/default.html' %}
+
+<!-- В контенте на странице мы выводим все объявления -->
+{% block content %}
+    <h1>Пора заполнить поля, для создания объявления</h1>
+    <hr>
+    <form action="" method="post">  <!-- Объявляем html форму -->
+      {% csrf_token %}
+      {{ form.as_p}}  <!-- сама форма, которая будет показана на странице -->
+      <input type="submit" value="Save">
+    </form>
+{% endblock content %}

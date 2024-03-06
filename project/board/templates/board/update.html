@@ -1,0 +1,12 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'board/default.html' %}
+
+{% block content %}
+    <h1>Настало время внести коррективы</h1>
+    <hr>
+    <form action="" method="post">  <!-- Объявляем html форму -->
+      {% csrf_token %}
+      {{ form.as_p}}  <!-- сама форма, которая будет показана на странице -->
+      <input type="submit" value="Save">
+    </form>
+{% endblock content %}

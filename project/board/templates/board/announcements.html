@@ -1,0 +1,112 @@
+<!--  наследуемся от шаблона default.html, который мы создавали для flatpages -->
+{% extends 'board/default.html' %}
+
+<!--  подключаем собственные фильтры из папки templatetags приложения board -->
+{% load custom_filters %}
+
+<!-- Подключаем новый файл с нашим тегом -->
+{% load custom_tags %}
+
+<!-- Название у нас будет products -->
+{% block title %}
+Объявления
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все объявления -->
+{% block content %}
+    <h1>Сегодня</h1>
+
+    <!-- Используем переданную из представления переменную time_now
+    и применяем к ней фильтр date. По назначению этот фильтр очень похож
+    на метод strftime у объекта datetime в Python — вывод времени
+    в указанном формате. -->
+    <!-- <h3>{{ time_now|date:'d M Y' }}</h3> Вот так выглядело использование переменной и фильтра -->
+
+    <!-- А вот так мы используем наш тег-->
+    <h3>{% current_time '%d %b %Y' %}</h3>
+
+    <!-- Если в переменной next_sale будет None,
+    то выведется указанный в фильтре текст -->
+    <h3> {{ next_sale|default_if_none:"Мы будем сообщать о новых объявлениях, согласно вашей подписки!" }} </h3>
+
+    <hr>
+
+    <!-- Добавляем форму, которая объединяет набор полей, они будут отправляться в запросе -->
+   <form action="" method="get">
+       <!-- Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями -->
+       {{ filterset.form.as_p }}
+       <!-- Добавим кнопку отправки данных формы -->
+       <input type="submit" value="Найти" />
+   </form>
+
+    <hr>
+
+    <!-- Выводим объявления, только если они есть с помощью тега if -->
+    {% if announcements %}
+        <table> <!-- Начинаем описывать таблицу -->
+            <tr> <!-- Добавляем строку -->
+
+                <td>Автор</td><!-- Добавляем ячейку в строку -->
+                <td>Название</td> <!-- Добавляем ещё одну ячейку в строку и так далее -->
+                <td>Описание</td>
+                <td>Категория</td>
+                <td>Дата подачи объявления</td>
+                <td>Фото</td>
+
+            </tr> <!-- Не забываем закрыть HTML-тег строки -->
+
+
+            <!-- Для каждого объявления будете генерироваться новая строчка,
+           т.е. новый HTML код, который указан в теле цикла.
+           При этом сам цикл работает точно так же, как и в Python.
+           announcement — переменная цикла, т.е. наш товар полученный из списка -->
+
+            {% for announcement in announcements %}
+            <tr>
+                <td>{{ announcement.author }}</td>
+                <td>{{ announcement.title }}</td>
+
+                <!-- Добавим специальный фильтр truncatechars,
+                чтобы ограничить количество символов до 15.
+                или специальный фильтр truncatewords, что бы ограничить количество слов до 3
+                Все остальные символы (слова) превратятся в многоточие. -->
+                <td>{{ announcement.text |  truncatewords:3 }}</td>
+
+                <!-- Используем наш фильтр -->
+                <td>{{ announcement.category|currency }}</td>
+                <td>{{ announcement.dateCreation }}</td>
+                <td>{{ announcement.upload }}</td>
+            </tr>
+            {% endfor %}
+
+         </table> <!-- ... и таблицы -->
+    {% else %}
+        <!-- Если отзывов нет, говорим, что отзывов нет ;) -->
+        <h2>Отзывов нет!</h2>
+    {% endif %}
+
+    <!-- Добавляем пагинацию на страницу -->
+
+    <!-- Информация о предыдущих страницах -->
+
+    {% if page_obj.has_previous %}
+       <a href="?{% url_replace page=1 %}">1</a>
+       {% if page_obj.previous_page_number != 1 %}
+           ...
+           <a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+       {% endif %}
+   {% endif %}
+
+    <!-- Информация о текущей странице -->
+   {{ page_obj.number }}
+
+   <!-- Информация о следующих страницах -->
+   {% if page_obj.has_next %}
+       <a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+       {% if paginator.num_pages != page_obj.next_page_number %}
+           ...
+           <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+       {% endif %}
+   {% endif %}
+
+{% endblock content %}
