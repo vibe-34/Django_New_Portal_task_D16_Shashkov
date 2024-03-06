@@ -19,7 +19,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')),  # Django скажет, как обрабатывать запросы от пользователей по ссылкам, которые начинаются с /accounts/.
-    path('accounts/', include('accounts.urls')),  # подключим urls приложения accounts в главном приложении project/urls.py
+    path("accounts/", include("allauth.urls")),  # Оставили только allauth
     path('announcement/', include('board.urls')),
 ]

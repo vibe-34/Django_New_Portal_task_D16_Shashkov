@@ -151,3 +151,10 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # встроенный бэкенд Django реализующий аутентификацию по username;
     'allauth.account.auth_backends.AuthenticationBackend',  # бэкенд аутентификации, предоставленный пакетом allauth
 ]
+
+ACCOUNT_EMAIL_REQUIRED = True             # поле email является обязательным
+ACCOUNT_UNIQUE_EMAIL = True               # поле email является уникальным
+ACCOUNT_USERNAME_REQUIRED = False         # username необязательный
+ACCOUNT_AUTHENTICATION_METHOD = 'email'   # аутентификация будет происходить посредством электронной почты
+ACCOUNT_EMAIL_VERIFICATION = 'none'       # 'mandatory' # верификация почты отсутствует
+
