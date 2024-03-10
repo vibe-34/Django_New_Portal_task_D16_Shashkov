@@ -6,13 +6,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-# Импортируем класс, который говорит нам о том,
-# что в этом представлении мы будем выводить список объектов из БД
+# Импортируем класс, который говорит нам о том, что в этом представлении мы будем выводить список объектов из БД
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from .filters import AnnouncementFilter
-from .forms import AnnouncementForm
-from .models import Announcement
+from .forms import AnnouncementForm, UserResponseForm
+from .models import Announcement, UserResponse
 
 
 class AnnouncementList(ListView):
@@ -20,7 +19,7 @@ class AnnouncementList(ListView):
     ordering = 'category'  # Поле, которое будет использоваться для сортировки объектов
     template_name = 'board/announcements.html'  # Указываем имя шаблона, в котором будут все инструкции о том, как именно пользователю должны быть показаны наши объекты
     context_object_name = 'announcements'  # Это имя списка, в котором будут лежать все объекты. # Его надо указать, чтобы обратиться к списку объектов в html-шаблоне.
-    paginate_by = 2  # вот так мы можем указать количество записей на странице
+    paginate_by = 3  # вот так мы можем указать количество записей на странице
 
     # Переопределяем функцию получения списка товаров
     def get_queryset(self):
@@ -49,7 +48,20 @@ class AnnouncementList(ListView):
         return context
 
 
-class AnnouncementDetail(DetailView):
+class UserResponseCreate(LoginRequiredMixin, CreateView):
+    model = UserResponse
+    template_name = 'board/id_announcement.html'
+    form_class = UserResponseForm
+
+    # def form_valid(self, form):
+    #     userresponse = form.save(commit=False)
+    #     userresponse.responder = self.request.user  # автором отклика будет текущий авторизованный пользователь
+    #     userresponse.responder_id = self.kwargs['pk']  # назначаем текущего пользователя, автором отклика
+    #     userresponse.save()
+    #     return super().form_valid(form)
+
+
+class AnnouncementDetail(UserResponseCreate, DetailView):
     model = Announcement  # Модель всё та же, но мы хотим получать информацию по отдельному отзыву
     template_name = 'board/id_announcement.html'  # Используем другой шаблон — id_announcement.html
     context_object_name = 'id_announcement'  # Название объекта, в котором будет выбранный пользователем отзыв

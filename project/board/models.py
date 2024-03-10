@@ -18,7 +18,7 @@ class Announcement(models.Model):  # Объявление
     def get_absolute_url(self):
         return f'/announcement/{self.id}'
 
-    # def Meta:
+    # class Meta:
     #     verbose_name = "Объявление"
     #     verbose_name_plural = "Объявления"
     #     ordering = ["-dateCreation"]
@@ -31,14 +31,13 @@ class UserResponse(models.Model):  # Отклик
     # dateCreation = models.DateTimeField(auto_now_add=True, verbose_name="Дата отклика") нет в ТЗ
     status = models.BooleanField(default=False, verbose_name="Статус отклика")
 
-    # def __str__(self):
-    #     return f"{self.commentUser} : {self.text} [:20] + ..."
-    #
+    def __str__(self):
+        return f"{self.responder} : {self.text} [:20] + ..."
+
     # def get_absolut_url(self):
     #     return redirect("article/<int:pk>")
-
-    # def Meta:
-    #     verbose_name = "Отклик"
-    #     verbose_name_plural = "Отклики"
-    #     ordering = ["id"]
+    class Meta:
+        verbose_name = "Отклик"
+        verbose_name_plural = "Отклики"
+        ordering = ["id"]
 

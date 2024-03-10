@@ -3,11 +3,12 @@
 
 <!-- В контенте на странице мы выводим все объявления -->
 {% block content %}
-    <h1>Продал? Скорее удали!</h1>
+    <h1>Удаляем безвозвратно?</h1>
     <hr>
     <form action="" method="post">  <!-- Объявляем html форму -->
       {% csrf_token %}
-      <p> Удаляем '{{ object.title}}'?</p>  <!-- сама форма, которая будет показана на странице -->
-      <input type="submit" value="Delete">
+      <p> Удаляем '<b>{{ object.title}}'</b></p>  <!-- сама форма, которая будет показана на странице -->
+<!--      <input type="submit" value="Удалить">-->
+      <button class="btn btn-danger" type ="submit">Удалить статью</button>
     </form>
 {% endblock content %}

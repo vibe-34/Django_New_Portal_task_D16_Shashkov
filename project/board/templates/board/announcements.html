@@ -45,13 +45,14 @@
     {% if announcements %}
         <table> <!-- Начинаем описывать таблицу -->
             <tr> <!-- Добавляем строку -->
-
+                <td></td>
                 <td>Автор</td><!-- Добавляем ячейку в строку -->
-                <td>Название</td> <!-- Добавляем ещё одну ячейку в строку и так далее -->
+                <td>Заголовок</td> <!-- Добавляем ещё одну ячейку в строку и так далее -->
                 <td>Описание</td>
                 <td>Категория</td>
-                <td>Дата подачи объявления</td>
+                <td>Дата подачи</td>
                 <td>Фото</td>
+                <td>Действия</td>
 
             </tr> <!-- Не забываем закрыть HTML-тег строки -->
 
@@ -61,21 +62,24 @@
            При этом сам цикл работает точно так же, как и в Python.
            announcement — переменная цикла, т.е. наш товар полученный из списка -->
 
-            {% for announcement in announcements %}
+            {% for el in announcements %}
             <tr>
-                <td>{{ announcement.author }}</td>
-                <td>{{ announcement.title }}</td>
+                <td><a href="{% url 'announcement_detail' el.id %}">Подробнее</a>
+                <td>{{ el.author }}</td>
+                <td>{{ el.title }}</td>
 
                 <!-- Добавим специальный фильтр truncatechars,
                 чтобы ограничить количество символов до 15.
-                или специальный фильтр truncatewords, что бы ограничить количество слов до 3
+                или специальный фильтр truncatewords, что бы ограничить количество слов до 10
                 Все остальные символы (слова) превратятся в многоточие. -->
-                <td>{{ announcement.text |  truncatewords:3 }}</td>
+                <td>{{ el.text |  truncatechars:10 }}</td>
 
                 <!-- Используем наш фильтр -->
-                <td>{{ announcement.category|currency }}</td>
-                <td>{{ announcement.dateCreation }}</td>
-                <td>{{ announcement.upload }}</td>
+                <td>{{ el.category }}</td>
+                <td>{{ el.dateCreation }}</td>
+                <td>{{ el.upload }}</td>
+                <td><a href="{% url 'announcement_update' el.id %}">Изменить</a>
+                    <a href="{% url 'announcement_delete' el.id %}">Удалить</a></td>
             </tr>
             {% endfor %}
 

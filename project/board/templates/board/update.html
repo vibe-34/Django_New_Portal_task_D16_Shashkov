@@ -7,6 +7,7 @@
     <form action="" method="post">  <!-- Объявляем html форму -->
       {% csrf_token %}
       {{ form.as_p}}  <!-- сама форма, которая будет показана на странице -->
-      <input type="submit" value="Save">
+<!--      <input  value="Save">-->
+        <button type="submit" class="btn btn-success">Изменить</button>
     </form>
 {% endblock content %}

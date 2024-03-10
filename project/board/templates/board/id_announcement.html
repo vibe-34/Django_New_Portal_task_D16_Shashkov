@@ -22,29 +22,28 @@
 <h2>Вы просматриваете объявление от автора {{id_announcement.author}} </h2>
 
 <table> <!-- Начинаем описывать таблицу -->
-            <tr> <!-- Добавляем строку -->
-                <td>Название</td> <!-- Добавляем ещё одну ячейку в строку и так далее -->
-                <td>Описание</td>
-                <td>Категория</td>
-                <td>Дата подачи объявления</td>
-                <td>Фото</td>
+    <tr> <!-- Добавляем строку -->
+        <td><b>Название</b></td> <!-- Добавляем ещё одну ячейку в строку и так далее -->
+        <td><b>Описание</b></td>
+        <td><b>Категория</b></td>
+        <td><b>Дата подачи объявления</b></td>
+        <td><b>Фото</b></td>
 
-            </tr> <!-- Не забываем закрыть HTML-тег строки -->
+    </tr> <!-- Не забываем закрыть HTML-тег строки -->
 
-            <tr>
-                <td>{{ id_announcement.title }}</td>
+    <tr>
+        <td>{{ id_announcement.title }}</td>
+        <td>{{ id_announcement.text }}</td>
+        <td>{{ id_announcement.category }}</td>
+        <td>{{ id_announcement.dateCreation }}</td>
+        <td>{{ id_announcement.upload }}</td>
+    </tr>
+ </table> <!-- ... и таблицы -->
 
-                <!-- Добавим специальный фильтр truncatechars,
-                чтобы ограничить количество символов до 15.
-                или специальный фильтр truncatewords, что бы ограничить количество слов до 3
-                Все остальные символы (слова) превратятся в многоточие. -->
-                <td>{{ id_announcement.text |  truncatewords:3 }}</td>
+<form action="{% url 'announcement_create' %}">
+    {% csrf_token %}
+    {{ form }}
 
-                <!-- Используем наш фильтр -->
-                <td>{{ id_announcement.category }}</td>
-                <td>{{ id_announcement.dateCreation }}</td>
-                <td>{{ id_announcement.upload }}</td>
-            </tr>
-
-         </table> <!-- ... и таблицы -->
+    <input type="submit" value='Оставить отклик'>
+</form>
 {% endblock content %}
