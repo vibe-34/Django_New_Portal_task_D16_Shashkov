@@ -72,6 +72,7 @@ class AnnouncementCreate(LoginRequiredMixin, CreateView):  # Представл�
     form_class = AnnouncementForm  # Указываем нашу разработанную форму
     model = Announcement  # модель объявления
     template_name = 'board/create.html'  # шаблон, в котором используется форма.
+    success_url = reverse_lazy('announcements')  # указываем место, куда перенаправить пользователя после удаления
 
 
 class AnnouncementUpdate(LoginRequiredMixin, UpdateView):  # Представление для редактирования объявления.
@@ -79,6 +80,7 @@ class AnnouncementUpdate(LoginRequiredMixin, UpdateView):  # Представл�
     form_class = AnnouncementForm
     model = Announcement
     template_name = 'board/update.html'
+    success_url = reverse_lazy('announcements')  # указываем место, куда перенаправить пользователя после удаления
 
 
 class AnnouncementDelete(LoginRequiredMixin, DeleteView):  # Представление удаляющее объявление.
