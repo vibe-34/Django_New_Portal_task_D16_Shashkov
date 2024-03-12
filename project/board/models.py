@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 
 from .category_type import CATEGORY_TYPE
 
@@ -34,10 +35,23 @@ class UserResponse(models.Model):  # Отклик
     def __str__(self):
         return f"{self.responder} : {self.text} [:20] + ..."
 
-    # def get_absolut_url(self):
-    #     return redirect("article/<int:pk>")
+    def get_absolute_url(self):
+        return reverse('announcement_detail', kwargs={'pk': self.adComment.id})
+
     class Meta:
         verbose_name = "Отклик"
         verbose_name_plural = "Отклики"
         ordering = ["id"]
 
+
+# class Subscription(models.Model):
+#     user = models.ForeignKey(
+#         to=User,
+#         on_delete=models.CASCADE,
+#         related_name='subscriptions',
+#     )
+#     category = models.ForeignKey(
+#         to='Category',
+#         on_delete=models.CASCADE,
+#         related_name='subscriptions',
+#     )

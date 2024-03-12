@@ -53,12 +53,17 @@ class UserResponseCreate(LoginRequiredMixin, CreateView):
     template_name = 'board/id_announcement.html'
     form_class = UserResponseForm
 
-    # def form_valid(self, form):
-    #     userresponse = form.save(commit=False)
-    #     userresponse.responder = self.request.user  # автором отклика будет текущий авторизованный пользователь
-    #     userresponse.responder_id = self.kwargs['pk']  # назначаем текущего пользователя, автором отклика
-    #     userresponse.save()
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        userresponse = form.save(commit=False)
+        userresponse.responder = self.request.user  # автором отклика будет текущий авторизованный пользователь
+        userresponse.adComment_id = self.kwargs['pk']  # назначаем текущего пользователя, автором отклика
+        userresponse.save()
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['announcement_id'] = self.kwargs['pk']  # ссылаемся на идентификатор объявления к которому делаем отклик
+        return context
 
 
 class AnnouncementDetail(UserResponseCreate, DetailView):

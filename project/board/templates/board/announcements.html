@@ -78,8 +78,15 @@
                 <td>{{ el.get_category_display}}</td>
                 <td>{{ el.dateCreation }}</td>
                 <td>{{ el.upload }}</td>
-                <td><a href="{% url 'announcement_update' el.id %}">Изменить</a>
+
+                <td>
+<!--                    {% if Announcement.author == request.user.author %}-->
+                    <a href="{% url 'announcement_update' el.id %}">Изменить</a>
+<!--                    {% endif %}-->
+
+<!--                    {% if perms.board.delete_announcement %}-->
                     <a href="{% url 'announcement_delete' el.id %}">Удалить</a></td>
+<!--                    {% endif %}-->
             </tr>
             {% endfor %}
 

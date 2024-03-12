@@ -29,7 +29,7 @@
         <td><b>Дата подачи объявления</b></td>
         <td><b>Фото</b></td>
 
-    </tr> <!-- Не забываем закрыть HTML-тег строки -->
+    </tr>
 
     <tr>
         <td>{{ id_announcement.title }}</td>
@@ -38,12 +38,20 @@
         <td>{{ id_announcement.dateCreation }}</td>
         <td>{{ id_announcement.upload }}</td>
     </tr>
- </table> <!-- ... и таблицы -->
+ </table>
 
-<form action="{% url 'announcement_create' %}">
+<!-- форма по созданию отклика -->
+<form action="{% url 'userresponse_create' announcement_id %}" method="post">
     {% csrf_token %}
     {{ form }}
 
     <input type="submit" value='Оставить отклик'>
 </form>
+{% if id_announcement.userresponse_set.all %} <!-- Если есть отклики к нашему объявлению -->
+<h4>Отклики по данному объявлению:</h4>
+{% for userresponse in id_announcement.userresponse_set.all %} <!-- То проходимся по всем откликам -->
+<p>{{ userresponse.responder.username }}</p> <!-- Выводим username откликнувшегося -->
+<p>{{ userresponse.text }}</p> <!-- Выводим текст отклика -->
+{% endfor %}
+{% endif %}
 {% endblock content %}

@@ -28,3 +28,7 @@ class UserResponseForm(forms.ModelForm):  # класс формы отклика
     class Meta:
         model = UserResponse
         fields = ['text']
+        labels = {'text': 'Введите текст отклика'}
+        widgets = {'text': forms.Textarea(attrs={'class': 'form-text', 'cols': 200, 'rows': 2})}
+
+
