@@ -79,6 +79,14 @@ class AnnouncementCreate(LoginRequiredMixin, CreateView):  # Представл�
     template_name = 'board/create.html'  # шаблон, в котором используется форма.
     success_url = reverse_lazy('announcements')  # указываем место, куда перенаправить пользователя после удаления
 
+    def form_valid(self, form):
+        announcement = form.save(commit=False)
+        if self.request.method == 'POST':
+            announcement.author = self.request.user
+        announcement.save()
+        return super().form_valid(form)
+
+
 
 class AnnouncementUpdate(LoginRequiredMixin, UpdateView):  # Представление для редактирования объявления.
     raise_exception = True  # Для выдачи ошибки с 403 кодом, для не авторизированных пользователей

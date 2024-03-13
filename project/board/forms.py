@@ -21,7 +21,7 @@ class AnnouncementForm(forms.ModelForm):
 
     class Meta:
         model = Announcement
-        fields = ['author', 'title', 'text', 'category', 'upload', ]
+        fields = ['title', 'text', 'category', 'upload', ]
 
 
 class UserResponseForm(forms.ModelForm):  # класс формы отклика
