@@ -79,7 +79,7 @@ class AnnouncementCreate(LoginRequiredMixin, CreateView):  # Представл�
     template_name = 'board/create.html'  # шаблон, в котором используется форма.
     success_url = reverse_lazy('announcements')  # указываем место, куда перенаправить пользователя после удаления
 
-    def form_valid(self, form):
+    def form_valid(self, form):  # Назначаем текущего авторизованного пользователя автором создаваемого объявления
         announcement = form.save(commit=False)
         if self.request.method == 'POST':
             announcement.author = self.request.user

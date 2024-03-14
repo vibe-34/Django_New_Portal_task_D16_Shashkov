@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("allauth.urls")),  # Оставили только allauth
     path('announcement/', include('board.urls')),
+    path('protect/', include('personal.urls')),
 ]

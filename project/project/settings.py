@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'board',
     'django_filters',
     'accounts',
+    'personal',
+
 
     'allauth',
     'allauth.account',

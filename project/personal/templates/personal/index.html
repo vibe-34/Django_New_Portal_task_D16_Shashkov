@@ -1,0 +1,12 @@
+<!--  наследуемся от шаблона default.html -->
+{% extends 'board/default.html' %}
+
+{% block content %}
+<h3>{{ request.user.username}}  это Ваш личный кабинет</h3>
+<hr>
+<form action="" method="get">
+      {{ filterset.form }}
+      <input type="submit" value="Проверить отклики">
+</form>
+<button><a class="nav-link" href="/accounts/logout/">Выход</a> </button>
+{% endblock %}
